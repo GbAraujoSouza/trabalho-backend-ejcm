@@ -133,6 +133,36 @@ class PetController {
       return response.status(500).json({ error: error.message });
     }
   }
+
+  async readPetVaccine(request: Request, response: Response) {
+    const { idPet } = request.params;
+    try {
+      const vaccines = await prisma.vaccine.findMany({
+        where: { id: Number(idPet) },
+      });
+      return response.status(200).json(vaccines);
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
+  }
+
+  async removeVaccine(request: Request, response: Response) {
+    const { idPet, idVaccine } = request.params;
+    try {
+      const removedVaccine = await prisma.vaccine.delete({
+        where: {
+          id: Number(idVaccine),
+          petId: Number(idPet),
+        },
+      });
+      if (removedVaccine) {
+        return response.status(200).json(removedVaccine);
+      }
+      return response.status(404).json({error: "Vacine record not found."})
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default new PetController();

@@ -10,6 +10,8 @@ router.get('/pets', PetController.readAll);
 router.put('/pet/:id', PetController.readAll);
 router.delete('/petDelete/:id', PetController.destroy);
 router.post('/takeVaccine', PetController.takeVaccine);
+router.get('/pet/:idPet/vaccines', PetController.readPetVaccine);
+router.delete('/pet/:idPet/removeVaccine/:idVaccine', PetController.removeVaccine);
 
 router.post('/vaccine', VaccineController.create);
 router.get('/vaccine/:id', VaccineController.read);
