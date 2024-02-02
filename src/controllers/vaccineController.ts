@@ -6,8 +6,10 @@ const prisma = new PrismaClient();
 class VaccineController {
   async create(request: Request, response: Response) {
     try {
-      const { name, dosage, date, nextDosageDate, lotNumber, manufacturer } = request.body;
-
+      const { name, date, nextDosageDate, lotNumber, manufacturer } =
+        request.body;
+      
+      const dosage = Number(request.body.dosage);
       let vaccineInput: Prisma.VaccineCreateInput = {
         name,
         dosage,
@@ -20,7 +22,9 @@ class VaccineController {
         data: vaccineInput,
       });
       return response.status(201).json(vaccine);
-    } catch (error: any) {}
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
   }
 
   async read(request: Request, response: Response) {
@@ -30,7 +34,9 @@ class VaccineController {
         where: { id: Number(id) },
       });
       return response.status(200).json(vaccine);
-    } catch (error: any) {}
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
   }
 
   async readAll(request: Request, response: Response) {
@@ -41,15 +47,18 @@ class VaccineController {
         },
       });
       return response.status(200).json(vaccines);
-    } catch (error: any) {}
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
   }
 
   async update(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const { name, dosage, date, nextDosageDate, lotNumber, manufacturer } =
+      const { name, date, nextDosageDate, lotNumber, manufacturer } =
         request.body;
 
+      const dosage = Number(request.body.dosage);
       let vaccineInput: Prisma.VaccineCreateInput = {
         name,
         dosage,
@@ -101,4 +110,4 @@ class VaccineController {
   }
 }
 
-export default new VaccineController;
+export default new VaccineController();

@@ -138,7 +138,7 @@ class PetController {
     const { idPet } = request.params;
     try {
       const vaccines = await prisma.vaccine.findMany({
-        where: { id: Number(idPet) },
+        where: { petId: Number(idPet) },
       });
       return response.status(200).json(vaccines);
     } catch (error: any) {
